@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Mime;
@@ -11,12 +12,12 @@ namespace FoldersWatcher
 {
     class Program
     {
-        static bool _cancelled;
         static void Main(string[] args)
         {
             while (Console.ReadKey(true).Key != ConsoleKey.Escape)
             {
                 var culture = ConfigurationManager.AppSettings["DefaultCulture"];
+                CultureInfo.CurrentCulture = new CultureInfo(culture);
                 var watcher = new FileSystemWatcher();
                 var filesToWatchHashTable = ConfigurationManager.GetSection("FoldersToWatch") as Hashtable;
                 var dictionaryFilesToWatch = filesToWatchHashTable.Cast<DictionaryEntry>()
